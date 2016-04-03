@@ -16,7 +16,7 @@ Uploads images to local directory on the server to resize the original image int
  
 Retrive the picture file via ```HttpPostedFileBase``` as a parameter in your controller action. Then send the file to the helper classes as the following
  
-```c#
+```
 [HttpPost]
 public async Task<string> Upload(HttpPostedFileBase file){
 	ImageUploaded imageUploaded = await new ImageUploadHelper().Upload(file);
