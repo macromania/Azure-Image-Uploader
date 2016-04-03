@@ -105,9 +105,3 @@ namespace Utility.AzureImageUploader
         public ImageDimensions ImageDimensions { get; set; }
     }
 }
-
-public class ImageHelper
-{
-    public const string ThumbnailUploadURL = "http://atolyestone.blob.core.windows.net/thumb/";
-    public const string ResizedUploadURL = "http://atolyestone.blob.core.windows.net/img/";
-}

@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="ImageResizeHelper.cs" />
     <Compile Include="ImageStrogeHelper.cs" />
     <Compile Include="ImageUploadHelper.cs" />
