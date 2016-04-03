@@ -76,6 +76,6 @@ Utility.AzureImageUploader.ImageUploaded
 
 ## RoadMap
 
-[] Move magic numbers in resize operations into AppSettings
-[] Add test coverage
+- [ ] Move magic numbers in resize operations into AppSettings
+- [ ] Add test coverage
 
