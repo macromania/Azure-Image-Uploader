@@ -16,7 +16,7 @@ Uploads images to local directory on the server to resize the original image int
  
 Retrive the picture file via ```HttpPostedFileBase``` as a parameter in your controller action. Then send the file to the helper classes as the following
  
-```
+```csharp
 [HttpPost]
 public async Task<string> Upload(HttpPostedFileBase file){
 	ImageUploaded imageUploaded = await new ImageUploadHelper().Upload(file);
@@ -31,7 +31,7 @@ Don't forget to add ```"multipart/form-data"``` to your ```Form``` tag in your V
 
 For accessing the resized or thumbnail images on your Views, first add following namespance to your Web.config:
 
-```
+```csharp
 <system.web>
 	<pages>
       <namespaces>
@@ -43,7 +43,7 @@ For accessing the resized or thumbnail images on your Views, first add following
 
 Assuming you have a Model that has FileName property updated after upload completes. In this example, ```ImageUploaded``` from the library. we use When you send your model to your view and try to access thumbnail:
 
-```
+```csharp
 @model Utility.AzureImageUploader.ImageUploaded
 
 <img src="@ImageHelper.ThumbnailUploadURL@Model.FileName" />
@@ -52,8 +52,9 @@ Assuming you have a Model that has FileName property updated after upload comple
 
 Alternatively, you can acccess to resized image with the following:
 
-```
-Utility.AzureImageUploader.ImageUploaded
+```csharp
+@model Utility.AzureImageUploader.ImageUploaded
+
 <img src="@ImageHelper.ResizedUploadURL@Model.FileName" />
 ```
 
