@@ -64,6 +64,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll">
       <Name>System.Spatial</Name>

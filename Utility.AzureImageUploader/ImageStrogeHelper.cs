@@ -3,6 +3,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.DataMovement;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,13 +13,20 @@ namespace Utility.AzureImageUploader
 {
     public class ImageStorageHelper
     {
-        private const string ThumbnailContainer = "thumb";
-        private const string ResizedContainer = "img";
+        private string ThumbnailContainer;
+        private string ResizedContainer;
+        private string StorageConnectionString;
+
+        public ImageStorageHelper()
+        {
+            ThumbnailContainer = ConfigurationManager.AppSettings["ThumbnailContainer"];
+            ResizedContainer = ConfigurationManager.AppSettings["ResizedContainer"];
+            StorageConnectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
+        }
 
         private CloudBlockBlob SetupStorageContext(string container, string filename)
         {
-            string storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=atolyestone;AccountKey=D1Y2zyJSPSfQFVPfxyrSN4NYa8Q1gvTimux7QGlw70y1A8VG5uhNkw/a83//07ALTvGRvHWI+gl7hYIJ6zBQ2A==";
-            CloudStorageAccount account = CloudStorageAccount.Parse(storageConnectionString);
+            CloudStorageAccount account = CloudStorageAccount.Parse(StorageConnectionString);
 
             CloudBlobClient blobClient = account.CreateCloudBlobClient();
             CloudBlobContainer blobContainer = blobClient.GetContainerReference(container);

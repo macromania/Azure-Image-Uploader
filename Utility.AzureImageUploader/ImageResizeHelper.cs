@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -11,14 +12,38 @@ namespace Utility.AzureImageUploader
     /// </summary>
     public static class ImageResizeHelper
     {
-        /// <summary>
-        /// A quick lookup for getting image encoders
-        /// </summary>
+        private static int ThumbnailWidth
+        {
+            get
+            {
+                return Int32.Parse(ConfigurationManager.AppSettings["ThumbnailWidth"]);
+            }
+        }
 
-        private const int THUMBNAIL_WIDTH = 640;
-        private const int RESIZED_IMAGE_WIDTH = 1024;
-        private const int THUMBNAIL_HEIGHT = 480;
-        private const int RESIZED_IMAGE_HEIGHT = 768;
+        private static int ThumbnailHeight
+        {
+            get
+            {
+                return Int32.Parse(ConfigurationManager.AppSettings["ThumbnailHeight"]);
+            }
+        }
+
+
+        private static int ResizedWidth
+        {
+            get
+            {
+                return Int32.Parse(ConfigurationManager.AppSettings["ResizedWidth"]);
+            }
+        }
+
+        private static int ResizedHeight
+        {
+            get
+            {
+                return Int32.Parse(ConfigurationManager.AppSettings["ResizedHeight"]);
+            }
+        }
 
         /// <summary>
         /// A quick lookup for getting image encoders
@@ -65,16 +90,16 @@ namespace Utility.AzureImageUploader
             mainImage = FixOrientation(mainImage);
             int thumbnailWidth = mainImage.Width;
             int thumbnailHeight = mainImage.Height;
-            if (mainImage.Width > RESIZED_IMAGE_WIDTH)
+            if (mainImage.Width > ResizedWidth)
             {
-                thumbnailWidth = THUMBNAIL_WIDTH;
+                thumbnailWidth = ThumbnailWidth;
                 thumbnailHeight = mainImage.Height * thumbnailWidth / mainImage.Width;
             }
 
-            if (thumbnailHeight > THUMBNAIL_HEIGHT)
+            if (thumbnailHeight > ThumbnailHeight)
             {
-                thumbnailWidth = mainImage.Width * THUMBNAIL_HEIGHT / mainImage.Height;
-                thumbnailHeight = THUMBNAIL_HEIGHT;
+                thumbnailWidth = mainImage.Width * ThumbnailHeight / mainImage.Height;
+                thumbnailHeight = ThumbnailHeight;
             }
             Image newImage = ResizeImage(mainImage, thumbnailWidth, thumbnailHeight);
             mainImage.Dispose();
@@ -86,12 +111,12 @@ namespace Utility.AzureImageUploader
         {
             Image mainImage = Image.FromFile(originalImagePath);
             mainImage = FixOrientation(mainImage);
-            int newWidth = RESIZED_IMAGE_WIDTH;
-            int newHeight = RESIZED_IMAGE_HEIGHT;
+            int newWidth = ResizedWidth;
+            int newHeight = ResizedHeight;
 
-            if (mainImage.Width > RESIZED_IMAGE_WIDTH)
+            if (mainImage.Width > ResizedWidth)
             {
-                newWidth = RESIZED_IMAGE_WIDTH;
+                newWidth = ResizedWidth;
             }
             else
             {
@@ -100,10 +125,10 @@ namespace Utility.AzureImageUploader
 
 
             newHeight = mainImage.Height * newWidth / mainImage.Width;
-            if (newHeight > RESIZED_IMAGE_HEIGHT)
+            if (newHeight > ResizedHeight)
             {
-                newWidth = mainImage.Width * RESIZED_IMAGE_HEIGHT / mainImage.Height;
-                newHeight = RESIZED_IMAGE_HEIGHT;
+                newWidth = mainImage.Width * ResizedHeight / mainImage.Height;
+                newHeight = ResizedHeight;
             }
 
             Image newImage = ResizeImage(mainImage, newWidth, newHeight);

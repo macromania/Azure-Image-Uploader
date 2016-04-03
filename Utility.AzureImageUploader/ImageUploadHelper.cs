@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,13 +10,18 @@ namespace Utility.AzureImageUploader
 {
     public class ImageUploadHelper
     {
-        private const string ORIGINAL_UPLOAD_DIR = "~/Uploads/Original/";
-        private const string RESIZED_UPLOAD_DIR = "~/Uploads/Resized/";
-        private const string THUMBNAIL_UPLOAD_DIR = "~/Uploads/Thumbnail/";
+        private string OriginalUploadDir;
+        private string ResizedUploadDir;
+        private string ThumbnailUploadDir;
+
 
 
         public ImageUploadHelper()
         {
+            OriginalUploadDir = ConfigurationManager.AppSettings["OriginalUploadDir"];
+            ResizedUploadDir = ConfigurationManager.AppSettings["ResizedUploadDir"];
+            ThumbnailUploadDir = ConfigurationManager.AppSettings["ThumbnailUploadDir"];
+
             CreateUploadDirectories();
         }
 
@@ -24,9 +30,9 @@ namespace Utility.AzureImageUploader
             try
             {
                 string newfilename = GenerateNewFileName(file);
-                string originalFilePath = HttpContext.Current.Server.MapPath(ORIGINAL_UPLOAD_DIR + newfilename);
-                string resizedFilePath = HttpContext.Current.Server.MapPath(RESIZED_UPLOAD_DIR + newfilename);
-                string thumbnailFilePath = HttpContext.Current.Server.MapPath(THUMBNAIL_UPLOAD_DIR + newfilename);
+                string originalFilePath = HttpContext.Current.Server.MapPath(OriginalUploadDir + newfilename);
+                string resizedFilePath = HttpContext.Current.Server.MapPath(ResizedUploadDir + newfilename);
+                string thumbnailFilePath = HttpContext.Current.Server.MapPath(ThumbnailUploadDir + newfilename);
 
                 SaveOriginalImage(file, newfilename);
                 ImageDimensions resizedDimensions = ResizeOriginalImage(originalFilePath, resizedFilePath, thumbnailFilePath);
@@ -41,46 +47,46 @@ namespace Utility.AzureImageUploader
             }
         }
 
-        private static async Task UploadResizedAndThumbnailBlobs(string newfilename, string thumbnailFilePath)
+        private async Task UploadResizedAndThumbnailBlobs(string newfilename, string thumbnailFilePath)
         {
             await new ImageStorageHelper().UploadThumbnailBlob(newfilename, thumbnailFilePath);
             await new ImageStorageHelper().UploadResizedBlob(newfilename, thumbnailFilePath);
         }
 
-        private static ImageDimensions ResizeOriginalImage(string originalFilePath, string resizedFilePath, string thumbnailFilePath)
+        private ImageDimensions ResizeOriginalImage(string originalFilePath, string resizedFilePath, string thumbnailFilePath)
         {
             ImageResizeHelper.CreateThumbnail(originalFilePath, thumbnailFilePath);
             ImageDimensions resizedDimensions = ImageResizeHelper.CreateResized(originalFilePath, resizedFilePath);
             return resizedDimensions;
         }
 
-        private static void DeleteOriginalFiles(string newfilename)
+        private void DeleteOriginalFiles(string newfilename)
         {
-            File.Delete(HttpContext.Current.Server.MapPath(ORIGINAL_UPLOAD_DIR + newfilename));
-            File.Delete(HttpContext.Current.Server.MapPath(RESIZED_UPLOAD_DIR + newfilename));
-            File.Delete(HttpContext.Current.Server.MapPath(THUMBNAIL_UPLOAD_DIR + newfilename));
+            File.Delete(HttpContext.Current.Server.MapPath(OriginalUploadDir + newfilename));
+            File.Delete(HttpContext.Current.Server.MapPath(ResizedUploadDir + newfilename));
+            File.Delete(HttpContext.Current.Server.MapPath(ThumbnailUploadDir + newfilename));
         }
 
         private void SaveOriginalImage(HttpPostedFileBase file, string newfilename)
         {
-            file.SaveAs(HttpContext.Current.Server.MapPath(ORIGINAL_UPLOAD_DIR + newfilename));
+            file.SaveAs(HttpContext.Current.Server.MapPath(OriginalUploadDir + newfilename));
         }
 
         private void CreateUploadDirectories()
         {
-            if (!Directory.Exists(HttpContext.Current.Server.MapPath(ORIGINAL_UPLOAD_DIR)))
+            if (!Directory.Exists(HttpContext.Current.Server.MapPath(OriginalUploadDir)))
             {
-                Directory.CreateDirectory(HttpContext.Current.Server.MapPath(ORIGINAL_UPLOAD_DIR));
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath(OriginalUploadDir));
             }
 
-            if (!Directory.Exists(HttpContext.Current.Server.MapPath(THUMBNAIL_UPLOAD_DIR)))
+            if (!Directory.Exists(HttpContext.Current.Server.MapPath(ThumbnailUploadDir)))
             {
-                Directory.CreateDirectory(HttpContext.Current.Server.MapPath(THUMBNAIL_UPLOAD_DIR));
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath(ThumbnailUploadDir));
             }
 
-            if (!Directory.Exists(HttpContext.Current.Server.MapPath(RESIZED_UPLOAD_DIR)))
+            if (!Directory.Exists(HttpContext.Current.Server.MapPath(ResizedUploadDir)))
             {
-                Directory.CreateDirectory(HttpContext.Current.Server.MapPath(RESIZED_UPLOAD_DIR));
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath(ResizedUploadDir));
             }
         }
 
