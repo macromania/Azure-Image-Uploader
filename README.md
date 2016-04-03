@@ -73,3 +73,9 @@ Utility.AzureImageUploader.ImageUploaded
 |**ResizedWidth**| Resized Image Width (int) |
 |**ResizedHeight**| Resized Image Height (int) |
 
+
+## RoadMap
+
+[] Move magic numbers in resize operations into AppSettings
+[] Add test coverage
+
