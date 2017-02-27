@@ -11,7 +11,23 @@ https://www.myget.org/F/azure-image-utility/api/v3/index.json
 ```
 Then install using Nuget package manager.
 Add all of the **App Settings** keys in your **Web.config**  
-Build your solution
+
+```
+<!-- AZURE IMAGE UPLOADER DIRECTORIES-->
+<add key="OriginalUploadDir" value="~/Uploads/Original/" />
+<add key="ResizedUploadDir" value="~/Uploads/Resized/" />
+<add key="ThumbnailUploadDir" value="~/Uploads/Thumbnail/" />
+<!-- AZURE IMAGE UPLOADER BLOB STORAGE -->
+<add key="BlobURL" value="{YOUR BLOB STORAGE URL}" />
+<add key="ThumbnailContainer" value="thumb/" />
+<add key="ResizedContainer" value="img/" />
+<add key="StorageConnectionString" value="{YOUR BLOB STORAGE CONNECTION STRING}" />
+<!-- AZURE IMAGE UPLOADER IMAGE DIMENSIONS-->
+<add key="ThumbnailWidth" value="1024" />
+<add key="ThumbnailHeight" value="768" />
+<add key="ResizedWidth" value="2048" />
+<add key="ResizedHeight" value="1536" />
+```
 
 
 ## Image Uploading
