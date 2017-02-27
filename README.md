@@ -21,7 +21,7 @@ Add all of the **App Settings** keys in your **Web.config**
 <add key="BlobURL" value="{YOUR BLOB STORAGE URL}" />
 <add key="ThumbnailContainer" value="thumb/" />
 <add key="ResizedContainer" value="img/" />
-<add key="StorageConnectionString" value="{YOUR BLOB STORAGE CONNECTION STRING}" />
+<add key="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName={YOUR BLOB ACCOUNT NAME};AccountKey={YOUR BLOB ACCOUNT KEY}" />
 <!-- AZURE IMAGE UPLOADER IMAGE DIMENSIONS-->
 <add key="ThumbnailWidth" value="1024" />
 <add key="ThumbnailHeight" value="768" />
