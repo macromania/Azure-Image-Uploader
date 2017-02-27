@@ -4,9 +4,12 @@ Uploads images to local directory on the server to resize the original image int
 
 ## Setup
 
+Add this public feed to your Nuget Settings
+
 ```
-PM> Install-Package Utility.AzureImageUploader -Version 1.0.0
+https://www.myget.org/F/azure-image-utility/api/v3/index.json
 ```
+Then install using Nuget package manager.
 Add all of the **App Settings** keys in your **Web.config**  
 Build your solution
 
