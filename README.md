@@ -4,12 +4,11 @@ Uploads images to local directory on the server to resize the original image int
 
 ## Setup
 
-1. Clone the repository in your local
-2. Open ```Utility.AzureImageUploader.sln```
-3. Build Solution
-5. Add **Utility.AzureImageUploader.csproj** as an existing project to your solution
-6. Add all of the **App Settings** keys in your **Web.config**
-7. Build your solution
+```
+PM> Install-Package Utility.AzureImageUploader -Version 1.0.0
+```
+Add all of the **App Settings** keys in your **Web.config**  
+Build your solution
 
 
 ## Image Uploading
